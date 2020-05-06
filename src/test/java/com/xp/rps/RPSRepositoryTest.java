@@ -20,7 +20,7 @@ public class RPSRepositoryTest {
     }
     @Test
     void getGame() {
-        Game g = new Game("Biyue", "Jeremy",4);
+        Game g = new Game("Biyue", "Jeremy",3);
         int id = repository.createGame(g);
         Game game = repository.getGame(id);
         assertEquals("Biyue", game.getPlayer1());
