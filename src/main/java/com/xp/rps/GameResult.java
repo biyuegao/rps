@@ -6,11 +6,17 @@ import java.util.List;
 public class GameResult {
     Game game;
     List<Round> roundList = new ArrayList<>();
+    Result result;
 
     public GameResult() {
     }
 
-    Result getResult() {
+    public GameResult(Game game, List<Round> roundList) {
+        this.game = game;
+        this.roundList = roundList;
+    }
+
+    public Result getResult() {
         //loop throws list to calculate the final result base on all Rounds
         Result result = Result.DRAW;
         int p1 = 0;
@@ -28,6 +34,10 @@ public class GameResult {
             result = Result.P2_WINS;
         }
         return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
     }
 
     public Game getGame() {

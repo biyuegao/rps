@@ -21,28 +21,26 @@ class RpsApplicationTests {
 	}
 	@Autowired
 	TestRestTemplate restTemplate;
-//	@Mock
-//	RPSRepository repository;
 
 	@Test
 	//Rest convention - if doing CRUD
 	void createGame() {
 		ResponseEntity<Integer> responseEntity = restTemplate.postForEntity("/game",
 				new Game("BiYue","Jeremy", 3), Integer.class);
+		int id = responseEntity.getBody();
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertTrue(responseEntity.getBody()>0);
-		ResponseEntity<Game> responseEntity1 = restTemplate.getForEntity("/game/1", Game.class);
+		ResponseEntity<Game> responseEntity1 = restTemplate.getForEntity("/game/"+id, Game.class);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals("BiYue", responseEntity1.getBody().getPlayer1());
-	}
-	@Test
-	void getGame() {
-//		Game g = new Game("Biyue", "Jeremy",3);
-//		when(repository.getGame(any())).thenReturn(g);
-		ResponseEntity<Game> responseEntity = restTemplate.getForEntity("/game/1", Game.class);
-		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		System.out.println(responseEntity.getBody());
-//		verify(repository).getGame(any());
-	}
 
+		ResponseEntity<Round> round = restTemplate.postForEntity("/play/1", new Round(Throw.PAPER, Throw.ROCK, null), Round.class);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(Result.P1_WINS, round.getBody().getResult());
+
+		ResponseEntity<GameResult> gameResult = restTemplate.getForEntity("/gameresult/1", GameResult.class);
+		assertEquals(HttpStatus.OK, gameResult.getStatusCode());
+		assertEquals(Result.P1_WINS, gameResult.getBody().result);
+
+	}
 }

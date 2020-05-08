@@ -1,5 +1,8 @@
 package com.xp.rps;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class RPS {
 
     public static Result play(Throw t1, Throw t2) {
